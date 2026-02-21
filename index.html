@@ -1,83 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>¿Quieres ser mi San Valentín? </title>
 
     <style>
-        body{
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            height:100vh;
-            margin:0;
-            text-align:center;
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
             font-family: Arial, sans-serif;
-            background-color:#ffccdd;
-            flex-direction:column;
+            background-color: #ffccdd;
+            flex-direction: column;
+            overflow: hidden; /* Evita scrolls si el botón se mueve fuera */
         }
 
-        h1{
-            font-size:40px;
-            color:#d10068;
-            margin-bottom:20px;
+        h1 {
+            font-size: 40px;
+            color: #d10068;
+            margin-bottom: 20px;
         }
 
-        button{
-            padding:15px 30px;
-            font-size:20px;
-            border:none;
-            border-radius:10px;
-            cursor:pointer;
-            margin:10px;
-            position:relative;
+        .container-botones {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            width: 100%;
         }
 
-        #si{
-            background-color:#ff4d88;
-            color:white;
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.2s ease;
         }
 
-        #no{
-            background-color:#999;
-            color:white;
-            position:absolute;
+        #si {
+            background-color: #ff4d88;
+            color: white;
         }
 
-        img{
-            width:200px;
-            margin-top:20px;
-            border-radius:20px;
-            box-shadow:0px 10px 20px rgba(0,0,0,0.2);
+        #no {
+            background-color: #999;
+            color: white;
+            position: absolute; /* Importante para que moverBoton funcione */
+        }
+
+        img {
+            width: 250px;
+            margin-top: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 10px 20px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 
 <body>
 
-    <h1 id="pregunta">¿Quieres ser mi San Valentín friki?</h1>
+    <h1 id="pregunta">¿Quieres salir conmigo?</h1>
 
-    <div id="botones">
-        <button id="si" onclick="respuestaSi()">Siuu</button>
-        <button id="no" onmouseover="moverBoton()">No pringao</button>
+    <div class="container-botones">
+        <button id="si" onclick="respuestaSi()">Sí</button>
+        <button id="no" onmouseover="moverBoton()">No</button>
     </div>
 
     <script>
-        function respuestaSi(){
+        function respuestaSi() {
             document.body.innerHTML = `
-                <h1>Muy bien <br>Elegiste la opción correcta muhehehehe</h1>
-                <img src="gato.jpg" alt="Gatito romántico">
+                <h1>BIENNN AHORA A COMER HAMBURGUESAS</h1>
+                <img src="gato.jpg" alt="Gatito feliz">
             `;
         }
 
-        function moverBoton(){
+        function moverBoton() {
             var boton = document.getElementById("no");
-            var x = Math.random() * (window.innerWidth - 100);
-            var y = Math.random() * (window.innerHeight - 50);
-            boton.style.position = "absolute";
+            // Calcula nuevas posiciones aleatorias dentro de la ventana
+            var x = Math.random() * (window.innerWidth - boton.offsetWidth);
+            var y = Math.random() * (window.innerHeight - boton.offsetHeight);
+            
             boton.style.left = x + "px";
             boton.style.top = y + "px";
         }
+
+        // Coloca el botón "No" en una posición inicial cerca del centro al cargar
+        window.onload = function() {
+            var botonNo = document.getElementById("no");
+            botonNo.style.left = (window.innerWidth / 2 + 50) + "px";
+            botonNo.style.top = (window.innerHeight / 2 + 35) + "px";
+        };
     </script>
 
 </body>
