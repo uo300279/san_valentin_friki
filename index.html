@@ -2,99 +2,144 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --bg: #0f172a;
+        }
+
         body {
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
+            font-family: 'Inter', system-ui, sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 24px;
             text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #ffccdd;
-            flex-direction: column;
-            overflow: hidden; /* Evita scrolls si el botón se mueve fuera */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
         }
 
         h1 {
-            font-size: 40px;
-            color: #d10068;
-            margin-bottom: 20px;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, #818cf8, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .container-botones {
+        .botones {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            gap: 15px;
             align-items: center;
-            height: 50px;
-            width: 100%;
         }
 
         button {
-            padding: 15px 30px;
-            font-size: 20px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
+            font-weight: 600;
             cursor: pointer;
-            margin: 10px;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #si {
-            background-color: #ff4d88;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
             color: white;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+
+        #si:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.4);
         }
 
         #no {
-            background-color: #999;
-            color: white;
-            position: absolute; /* Importante para que moverBoton funcione */
+            background: rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
         }
 
-        img {
-            width: 250px;
+        #no:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #f1f5f9;
+        }
+
+        .success-img {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 16px;
             margin-top: 20px;
-            border-radius: 20px;
-            box-shadow: 0px 10px 20px rgba(0,0,0,0.2);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-
 <body>
 
-    <h1 id="pregunta">¿Quieres salir conmigo?</h1>
-
-    <div class="container-botones">
-        <button id="si" onclick="respuestaSi()">Sí</button>
-        <button id="no" onmouseover="moverBoton()">No</button>
+    <div class="card" id="mainCard">
+        <h1 id="pregunta">¿Quieres salir conmigo?</h1>
+        <div class="botones">
+            <button id="si" onclick="aceptar()">Sí</button>
+            <button id="no" onclick="rechazar()">No</button>
+        </div>
     </div>
 
     <script>
-        function respuestaSi() {
-            document.body.innerHTML = `
-                <h1>BIENNN AHORA A COMER HAMBURGUESAS</h1>
-                <img src="gato.jpg" alt="Gatito feliz">
+        let index = 0;
+        const frases = [
+            "¿Segura?",
+            "Piénsalo otra vez",
+            "¿De verdad no?",
+            "Me vas a poner triste...",
+            "¡Dale al botón azul!",
+            "Esa opción está rota",
+            "No acepto un no"
+        ];
+
+        function rechazar() {
+            const btnNo = document.getElementById('no');
+            const btnSi = document.getElementById('si');
+            
+            // Cambia el texto del botón No
+            btnNo.innerText = frases[index];
+            index = (index + 1) % frases.length;
+
+            // Hace el botón SÍ más grande para llamar la atención
+            const currentSize = parseFloat(window.getComputedStyle(btnSi).fontSize);
+            btnSi.style.fontSize = (currentSize * 1.1) + "px";
+            btnSi.style.padding = (parseFloat(window.getComputedStyle(btnSi).padding) * 1.1) + "px";
+        }
+
+        function aceptar() {
+            const card = document.getElementById('mainCard');
+            card.innerHTML = `
+                <h1>BIENNNN AHORA A COMER HAMBURGUESAS</h1>
+                <img src="gato.jpg" class="success-img" alt="Celebración">
+                <p style="margin-top: 20px; color: #94a3b8;">Prepárate para lo mejor.</p>
             `;
         }
-
-        function moverBoton() {
-            var boton = document.getElementById("no");
-            // Calcula nuevas posiciones aleatorias dentro de la ventana
-            var x = Math.random() * (window.innerWidth - boton.offsetWidth);
-            var y = Math.random() * (window.innerHeight - boton.offsetHeight);
-            
-            boton.style.left = x + "px";
-            boton.style.top = y + "px";
-        }
-
-        // Coloca el botón "No" en una posición inicial cerca del centro al cargar
-        window.onload = function() {
-            var botonNo = document.getElementById("no");
-            botonNo.style.left = (window.innerWidth / 2 + 50) + "px";
-            botonNo.style.top = (window.innerHeight / 2 + 35) + "px";
-        };
     </script>
-
 </body>
 </html>
