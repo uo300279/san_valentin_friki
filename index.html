@@ -113,3 +113,44 @@
             <button id="si" onclick="aceptar()">Sí</button>
             <button id="no" onclick="rechazar()">No</button>
         </div>
+    </div>
+
+    <script>
+        let index = 0;
+        const frases = [
+            "¿Segura seguirisima?",
+            "Que si o",
+            "Pues te robo a pipi",
+            "Si sigues dándole es que eres infiel",
+            "Error",
+            "Pajesi cabron"
+        ];
+
+        function rechazar() {
+            const btnNo = document.getElementById('no');
+            const btnSi = document.getElementById('si');
+            
+            btnNo.innerText = frases[index];
+            index = (index + 1) % frases.length;
+
+            const currentSize = parseFloat(window.getComputedStyle(btnSi).fontSize);
+            btnSi.style.fontSize = (currentSize * 1.1) + "px";
+            btnSi.style.padding = (parseFloat(window.getComputedStyle(btnSi).padding) * 1.05) + "px";
+        }
+
+        function aceptar() {
+            const card = document.getElementById('mainCard');
+            card.innerHTML = `
+                <h1>BIENNNN AHORA A COMER HAMBURGUESAS</h1>
+                <img src="monin.jpg" class="success-img" alt="Celebración">
+                <p style="margin-top: 20px; color: #94a3b8; font-style: italic;">
+                    (Ahora mi madre te va a dejar de pagar).
+                </p>
+                <button class="btn-volver" onclick="window.location.reload()">
+                    ← Volver al inicio
+                </button>
+            `;
+        }
+    </script>
+</body>
+</html>
